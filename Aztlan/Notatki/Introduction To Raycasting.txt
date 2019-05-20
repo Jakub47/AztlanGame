@@ -1,0 +1,19 @@
+Raycast to proces w którym nastêpujê narysowanie niewidzialnej lini od jakiegoœ punktu to konkretnego punkt w celu detekcji jakiegoœ kolidera. 
+
+
+   CAMERA ------------------ Direction---------------------->Collistion
+Punkt startowy			Ray			Colider obiektu
+   (x,y,z)
+
+W celu przetestowania wykorzystany zostanie 
+1)Debub.DrawRay(X,Y) -> Narysowanie lini od punktu X do Y
+2)Camera.ScreenPointToRay -> Zwraca Ray który idzie z camery do okreœlonego punktu
+
+PRAKTYKA:
+1) Ray lastRat -> Definiujemy zmienn¹ typu Ray która przechowa info o punkcie.
+2) if(Input.GetMouseButtonDown(0))
+	{
+	   //Bierzemy ray w miejscu klikniêcia przycisku myszy
+	   lastRay = Camera.ScreenPointToRay(Input.mousePosition);
+	}
+  Debub.DrawRay(lastRay.origin,lastRay.Diretion * 100);

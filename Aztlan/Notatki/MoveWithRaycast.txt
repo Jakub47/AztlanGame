@@ -1,0 +1,8 @@
+Z wczeœniej zdefiniowan¹ zmien¹ który bierze punkt na podstawie klikniêtego punktu z kamery tzn
+Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+tworzymy ifa który sprawdza czy faktycznie coœ zosta³o dotkniête (czyli czy zadany obiekt ma kolidera)
+if(Physics.RayCast(ray, out RayCastHit hit)
+{
+  //Teraz tutaj chcemy przenieœæ gracza do wyznaczonego punktu wykorzystuj¹c jego komponent navmeshagent
+  player.destination = ray.point;
+}
