@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Aztlan.Combat
 {
 
-    public class Fighter : MonoBehaviour
+    public class Fighter : MonoBehaviour , IAction
     {
         [SerializeField] float weaponRange = 2f;
 
@@ -18,15 +18,15 @@ namespace Aztlan.Combat
             if (target == null) return;
 
 
-            if (!GetIsInRange())
-            {
-                
-                GetComponent<Mover>().StartMoveAction(target.position);
-            }
-            else
-            {
-                GetComponent<Mover>().Stop();
-            }
+            //if (!GetIsInRange())
+            //{
+
+            //    GetComponent<Mover>().StartMoveAction(target.position);
+            //}
+            //else
+            //{
+            //    GetComponent<Mover>().Cancel();
+            //}
         }
 
         private bool GetIsInRange()

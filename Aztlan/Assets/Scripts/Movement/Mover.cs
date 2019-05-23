@@ -8,7 +8,7 @@ using UnityEngine.AI;
 namespace Aztlan.Movement
 {
 
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour , IAction
     {
         [SerializeField] Transform target;
         NavMeshAgent navMeshAgent;
@@ -34,7 +34,6 @@ namespace Aztlan.Movement
         public void StartMoveAction(Vector3 destination)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            GetComponent<Fighter>().Cancel();
             MoveTo(destination);
         }
 
@@ -45,7 +44,7 @@ namespace Aztlan.Movement
             navMeshAgent.isStopped = false;
         }
 
-        public void Stop()
+        public void Cancel()
         {
             navMeshAgent.isStopped = true;
         }
@@ -57,6 +56,7 @@ namespace Aztlan.Movement
             float speed = localVeloctity.z;
             GetComponent<Animator>().SetFloat("forwardSpeed", speed);
         }
+
     }
 
 }

@@ -9,13 +9,15 @@ namespace Aztlan.Core
     public class ActionScheduler : MonoBehaviour
     {
         
-        private MonoBehaviour currentAction;
+        private IAction currentAction;
 
-        public void StartAction(MonoBehaviour action)
+        public void StartAction(IAction action)
         {
             if (currentAction == action) return;
-            if(currentAction != null)
-                print("Canceling" + currentAction);
+            if (currentAction != null)
+            {
+                currentAction.Cancel();
+            }                
             currentAction = action;
         }
 
