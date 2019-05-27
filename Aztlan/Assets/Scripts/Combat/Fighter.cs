@@ -9,11 +9,16 @@ namespace Aztlan.Combat
     public class Fighter : MonoBehaviour , IAction
     {
         [SerializeField] float weaponRange = 2f;
+        [SerializeField] float timeBetweenAttack = 1f;
+
 
         Transform target;
+        float timeSinceLastAttack = 0;
 
         private void Update()
         {
+            timeSinceLastAttack += Time.deltaTime;
+
             if (target == null) return;
 
             if (!GetIsInRange())
@@ -29,7 +34,11 @@ namespace Aztlan.Combat
 
         private void AttackBehaviour()
         {
-            GetComponent<Animator>().SetTrigger("attack");
+            if(timeSinceLastAttack >= timeBetweenAttack)
+            {
+                GetComponent<Animator>().SetTrigger("attack");
+                timeSinceLastAttack = 0.0f;
+            }
         }
 
         private bool GetIsInRange()
