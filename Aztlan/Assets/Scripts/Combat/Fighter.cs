@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Aztlan.Combat
 {
-
     public class Fighter : MonoBehaviour , IAction
     {
         [SerializeField] float weaponRange = 2f;
@@ -17,16 +16,20 @@ namespace Aztlan.Combat
         {
             if (target == null) return;
 
+            if (!GetIsInRange())
+            {
+                GetComponent<Mover>().MoveTo(target.position);
+            }
+            else
+            {
+                GetComponent<Mover>().Cancel();
+                AttackBehaviour();
+            }
+        }
 
-            //if (!GetIsInRange())
-            //{
-
-            //    GetComponent<Mover>().StartMoveAction(target.position);
-            //}
-            //else
-            //{
-            //    GetComponent<Mover>().Cancel();
-            //}
+        private void AttackBehaviour()
+        {
+            GetComponent<Animator>().SetTrigger("attack");
         }
 
         private bool GetIsInRange()
@@ -43,6 +46,12 @@ namespace Aztlan.Combat
         public void Cancel()
         {
             target = null;
+        }
+
+        // Animation Event
+        void Hit()
+        {
+
         }
     }
 

@@ -8,8 +8,8 @@ namespace Aztlan.Core
 {
     public class ActionScheduler : MonoBehaviour
     {
-        
-        private IAction currentAction;
+
+        IAction currentAction;
 
         public void StartAction(IAction action)
         {
@@ -17,21 +17,8 @@ namespace Aztlan.Core
             if (currentAction != null)
             {
                 currentAction.Cancel();
-            }                
+            }
             currentAction = action;
-        }
-
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }
