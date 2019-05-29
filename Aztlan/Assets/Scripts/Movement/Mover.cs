@@ -32,6 +32,7 @@ namespace Aztlan.Movement
 
         public void MoveTo(Vector3 destination)
         {
+            
             navMeshAgent.destination = destination;
             navMeshAgent.isStopped = false;
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Aztlan.Combat
 {
+    [RequireComponent(typeof(Health))]
     public class CombatTarget : MonoBehaviour
     {
       
