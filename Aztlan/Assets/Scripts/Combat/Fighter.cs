@@ -35,7 +35,8 @@ namespace Aztlan.Combat
 
         private void AttackBehaviour()
         {
-            if(timeSinceLastAttack >= timeBetweenAttack)
+            transform.LookAt(target.transform);
+            if (timeSinceLastAttack >= timeBetweenAttack)
             {
                 //Thhis will trigger HIT() EVENT;
                 GetComponent<Animator>().SetTrigger("attack");
