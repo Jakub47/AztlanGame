@@ -20,6 +20,8 @@ namespace Aztlan.Combat
             timeSinceLastAttack += Time.deltaTime;
 
             if (target == null) return;
+            print(target.IsDead());
+
             if (target.IsDead()) return;
 
             if (!GetIsInRange())
@@ -51,7 +53,7 @@ namespace Aztlan.Combat
 
         public bool CanAttack(CombatTarget combatTarget)
         {
-            if (combatTarget == null) return false;
+            if (combatTarget == null || combatTarget.name == gameObject.name) return false;
             Health targetToTest = combatTarget.GetComponent<Health>();
             return targetToTest != null && !targetToTest.IsDead();
         }
