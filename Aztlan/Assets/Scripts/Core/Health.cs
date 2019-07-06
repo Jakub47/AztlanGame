@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Aztlan.Combat
+namespace Aztlan.Core
 {
     public class Health : MonoBehaviour
     {
@@ -31,6 +31,7 @@ namespace Aztlan.Combat
         {
             GetComponent<Animator>().SetTrigger("die");
             _isDead = true;
+            GetComponent<ActionScheduler>().CancelCurrentAction();
         }
     }
 }
