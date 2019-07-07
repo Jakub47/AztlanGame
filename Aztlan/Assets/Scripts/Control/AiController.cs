@@ -1,5 +1,6 @@
 ﻿using Aztlan.Combat;
 using Aztlan.Core;
+using Aztlan.Movement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,18 @@ namespace Aztlan.Control
         Fighter fighter;
         Health health;
         GameObject player;
+        Mover mover;
+
+        Vector3 guardPosition;
 
         private void Start()
         {
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();
             player = GameObject.FindWithTag("Player");
+            mover = GetComponent<Mover>();
+
+            guardPosition = transform.position;
         }
 
         private void Update()
@@ -30,7 +37,7 @@ namespace Aztlan.Control
             }
             else
             {
-                GetComponent<Fighter>().Cancel();
+                mover.StartMoveAction(guardPosition);
             }
         }
 
