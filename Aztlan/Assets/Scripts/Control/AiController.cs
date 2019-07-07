@@ -10,12 +10,15 @@ namespace Aztlan.Control
     public class AiController : MonoBehaviour
     {
         [SerializeField] float chaseDistance = 5f; //What distance they should attack 
+        [SerializeField] float suspictionTime = 3f;
+
         Fighter fighter;
         Health health;
         GameObject player;
         Mover mover;
 
         Vector3 guardPosition;
+        float timeSinceSawPlayer = Mathf.Infinity;
 
         private void Start()
         {
@@ -33,12 +36,35 @@ namespace Aztlan.Control
 
             if (InAttackRange() && fighter.CanAttack(player))
             {
-                fighter.Attack(player.gameObject);
+                timeSinceSawPlayer = 0;
+                AttackBehaviour();
+            }
+            else if(timeSinceSawPlayer <= suspictionTime && timeSinceSawPlayer >= 0)
+            {
+                //Suspiction state
+                SuspiciousBehaviour();
             }
             else
             {
-                mover.StartMoveAction(guardPosition);
+                GuardBehaviour();
             }
+
+            timeSinceSawPlayer += Time.deltaTime;
+        }
+
+        private void GuardBehaviour()
+        {
+            mover.StartMoveAction(guardPosition);
+        }
+
+        private void SuspiciousBehaviour()
+        {
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+        }
+
+        private void AttackBehaviour()
+        {
+            fighter.Attack(player.gameObject);
         }
 
         private bool InAttackRange()
