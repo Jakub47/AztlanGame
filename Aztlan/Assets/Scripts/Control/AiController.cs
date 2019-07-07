@@ -38,5 +38,11 @@ namespace Aztlan.Control
         {
             return Vector3.Distance(player.transform.position, gameObject.transform.position) <= chaseDistance;
         }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(gameObject.transform.position, chaseDistance);
+        }
     }
 }

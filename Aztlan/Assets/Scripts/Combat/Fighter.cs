@@ -73,7 +73,8 @@ namespace Aztlan.Combat
         // Animation Event
         void Hit()
         {
-            target.TakeDamage(weaponDamage);
+            if(target != null)
+                target.TakeDamage(weaponDamage);
         }
     }
 
