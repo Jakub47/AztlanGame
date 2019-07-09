@@ -1,6 +1,7 @@
 ﻿using Aztlan.Combat;
 using Aztlan.Core;
 using Aztlan.Movement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace Aztlan.Control
     {
         [SerializeField] float chaseDistance = 5f; //What distance they should attack 
         [SerializeField] float suspictionTime = 3f;
+        [SerializeField] PatrolPath patrolPath;
+        [SerializeField] float waypointTolerance = 1f;
 
         Fighter fighter;
         Health health;
@@ -19,6 +22,7 @@ namespace Aztlan.Control
 
         Vector3 guardPosition;
         float timeSinceSawPlayer = Mathf.Infinity;
+        int currentWaypointIndex = 0;
 
         private void Start()
         {
@@ -46,16 +50,49 @@ namespace Aztlan.Control
             }
             else
             {
-                GuardBehaviour();
+                PatrolBehaviour();
             }
 
             timeSinceSawPlayer += Time.deltaTime;
         }
 
-        private void GuardBehaviour()
+        private void PatrolBehaviour()
         {
-            mover.StartMoveAction(guardPosition);
+            Vector3 nextPosition = guardPosition;
+
+
+            if(patrolPath != null)
+            {
+                if (AtWaypoint())
+                {
+                    CycleWaypoint();
+                }
+
+                nextPosition = GetCurrentWaypoint();
+            }
+
+            mover.StartMoveAction(nextPosition);
         }
+
+        private bool AtWaypoint()
+        {
+            float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
+            return distanceToWaypoint < waypointTolerance;
+            
+        }
+
+        private Vector3 GetCurrentWaypoint()
+        {
+            //currentWaypointIndex
+            return patrolPath.GetWaypoint(currentWaypointIndex);
+        }
+
+        private void CycleWaypoint()
+        {
+            currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
+        }
+
+
 
         private void SuspiciousBehaviour()
         {
