@@ -14,6 +14,7 @@ namespace Aztlan.Control
         [SerializeField] float suspictionTime = 3f;
         [SerializeField] PatrolPath patrolPath;
         [SerializeField] float waypointTolerance = 1f;
+        [SerializeField] float waypointDwellTime = 3f;
 
         Fighter fighter;
         Health health;
@@ -22,6 +23,8 @@ namespace Aztlan.Control
 
         Vector3 guardPosition;
         float timeSinceSawPlayer = Mathf.Infinity;
+        float timeSinceArriveAtWaypoint = Mathf.Infinity;
+
         int currentWaypointIndex = 0;
 
         private void Start()
@@ -40,10 +43,9 @@ namespace Aztlan.Control
 
             if (InAttackRange() && fighter.CanAttack(player))
             {
-                timeSinceSawPlayer = 0;
                 AttackBehaviour();
             }
-            else if(timeSinceSawPlayer <= suspictionTime && timeSinceSawPlayer >= 0)
+            else if (timeSinceSawPlayer <= suspictionTime && timeSinceSawPlayer >= 0)
             {
                 //Suspiction state
                 SuspiciousBehaviour();
@@ -53,7 +55,13 @@ namespace Aztlan.Control
                 PatrolBehaviour();
             }
 
+            UpdateTimes();
+        }
+
+        private void UpdateTimes()
+        {
             timeSinceSawPlayer += Time.deltaTime;
+            timeSinceArriveAtWaypoint += Time.deltaTime;
         }
 
         private void PatrolBehaviour()
@@ -65,13 +73,17 @@ namespace Aztlan.Control
             {
                 if (AtWaypoint())
                 {
+                    timeSinceArriveAtWaypoint = 0;
                     CycleWaypoint();
                 }
 
                 nextPosition = GetCurrentWaypoint();
             }
 
-            mover.StartMoveAction(nextPosition);
+            if(timeSinceArriveAtWaypoint > waypointDwellTime)
+            {
+                mover.StartMoveAction(nextPosition);
+            }
         }
 
         private bool AtWaypoint()
@@ -101,6 +113,7 @@ namespace Aztlan.Control
 
         private void AttackBehaviour()
         {
+            timeSinceSawPlayer = 0;
             fighter.Attack(player.gameObject);
         }
 
