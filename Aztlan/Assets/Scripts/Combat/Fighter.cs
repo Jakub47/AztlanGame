@@ -26,7 +26,7 @@ namespace Aztlan.Combat
 
             if (!GetIsInRange())
             {
-                GetComponent<Mover>().MoveTo(target.transform.position);
+                GetComponent<Mover>().MoveTo(target.transform.position,1f);
             }
             else
             {
@@ -67,6 +67,7 @@ namespace Aztlan.Combat
         public void Cancel()
         {
             GetComponent<Animator>().SetTrigger("stopAttack");
+            GetComponent<Mover>().Cancel();
             target = null;
         }
 
